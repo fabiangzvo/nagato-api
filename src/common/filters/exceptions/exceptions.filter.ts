@@ -6,6 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
+import { TypeORMError } from 'typeorm';
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {
@@ -24,6 +25,8 @@ export class ExceptionsFilter implements ExceptionFilter {
       const res = exception.getResponse();
 
       message = typeof res === 'string' ? res : (res as any).message;
+    } else if (exception instanceof TypeORMError) {
+      message = exception.message;
     }
 
     this.logger.error(`🔥 Error captured: ${JSON.stringify(exception)}`);
