@@ -1,16 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-import { Integration } from 'src/integrations/entities/integration.entity';
+import { Integration } from '@integrations/entities/integration.entity';
 
 @Entity()
-export class Status {
+export class Provider {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @OneToMany(() => Integration, (integration) => integration.status)
+  @OneToMany(() => Integration, (integration) => integration.provider)
   integrations: Integration[];
 
   @Column({ name: 'created_at' })

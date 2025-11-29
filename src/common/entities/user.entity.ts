@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 
 import { Integration } from 'src/integrations/entities/integration.entity';
 
@@ -19,7 +25,8 @@ export class User {
   @Column()
   image: string;
 
-  @OneToMany(() => Integration, (integration) => integration.userId)
+  @OneToMany(() => Integration, (integration) => integration.user)
+  @JoinColumn()
   integrations: Integration[];
 
   @Column({ name: 'created_at' })

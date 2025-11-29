@@ -12,6 +12,6 @@ export class IntegrationsController {
   create(
     @Body() createIntegrationDto: CreateIntegrationDto,
   ): Promise<ObjectLiteral | null> {
-    return this.integrationsService.create(createIntegrationDto, '1');
+    return this.integrationsService.create(createIntegrationDto);
   }
 }

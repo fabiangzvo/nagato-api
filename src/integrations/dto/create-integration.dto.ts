@@ -12,4 +12,8 @@ export class CreateIntegrationDto {
   @IsNotEmpty()
   @IsString()
   providerId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: string;
 }
