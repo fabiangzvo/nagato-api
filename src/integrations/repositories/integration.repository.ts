@@ -18,7 +18,9 @@ export class IntegrationsRepository {
     return result.identifiers[0];
   }
 
-  find(filters?: FindManyOptions<Integration>): Promise<Integration[]> {
-    return this.instance.getRepository(Integration).find(filters);
+  findAndCount(
+    filters?: FindManyOptions<Integration>,
+  ): Promise<[Integration[], number]> {
+    return this.instance.getRepository(Integration).findAndCount(filters);
   }
 }

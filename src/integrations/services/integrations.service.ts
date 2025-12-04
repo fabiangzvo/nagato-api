@@ -7,6 +7,7 @@ import { FindManyOptions } from 'typeorm';
 import { StatusRepository } from '@common/repositories/status.repository';
 import { UserRepository } from '@common/repositories/user.repository';
 import { ProviderRepository } from '@common/repositories/provider.repository';
+import { PaginatedResponseDto } from '@common/dto/paginatedResponse.dto';
 
 import { IntegrationsRepository } from '../repositories/integration.repository';
 import { CreateIntegrationDto } from '../dto/create-integration.dto';
@@ -64,12 +65,18 @@ export class IntegrationsService {
     return integration;
   }
 
-  find(filters: PaginationQueryDto): Promise<Integration[]> {
+  async find(
+    filters: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Integration>> {
     const options: FindManyOptions<Integration> = {
       take: filters.limit,
       skip: (filters.page - 1) * filters.limit,
       order: {
         createdAt: filters.sort || 'desc',
+      },
+      relations: {
+        provider: true,
+        status: true,
       },
     };
 
@@ -79,6 +86,9 @@ export class IntegrationsService {
 
     if (Object.keys(conditions).length > 0) options.where = conditions;
 
-    return this.integrationRepository.find(options);
+    const [data, count] =
+      await this.integrationRepository.findAndCount(options);
+
+    return { data, count };
   }
 }

@@ -1,6 +1,8 @@
 import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 
+import { PaginatedResponseDto } from '@common/dto/paginatedResponse.dto';
+
 import { IntegrationsService } from '../services/integrations.service';
 import { CreateIntegrationDto } from '../dto/create-integration.dto';
 import { Integration } from '../entities/integration.entity';
@@ -18,7 +20,9 @@ export class IntegrationsController {
   }
 
   @Get()
-  find(@Query() query: PaginationQueryDto): Promise<Integration[]> {
+  find(
+    @Query() query: PaginationQueryDto,
+  ): Promise<PaginatedResponseDto<Integration>> {
     return this.integrationsService.find(query);
   }
 }
