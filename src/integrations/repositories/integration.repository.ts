@@ -31,4 +31,23 @@ export class IntegrationsRepository {
 
     return !!affected;
   }
+
+  async update(
+    id: string,
+    data: Partial<Integration>,
+  ): Promise<Integration | null> {
+    const { affected } = await this.instance
+      .getRepository(Integration)
+      .update({ id }, data);
+
+    if (!affected) return null;
+
+    return this.findOneById(id);
+  }
+
+  findOneById(id: string): Promise<Integration | null> {
+    return this.instance
+      .getRepository(Integration)
+      .findOne({ where: { id }, relations: { status: true, provider: true } });
+  }
 }

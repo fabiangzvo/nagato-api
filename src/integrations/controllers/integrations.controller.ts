@@ -6,6 +6,7 @@ import {
   Query,
   Delete,
   Param,
+  Put,
 } from '@nestjs/common';
 import { ObjectLiteral } from 'typeorm';
 
@@ -32,6 +33,11 @@ export class IntegrationsController {
     @Query() query: PaginationQueryDto<Integration>,
   ): Promise<PaginatedResponseDto<Integration>> {
     return this.integrationsService.find(query);
+  }
+
+  @Put('/:id/status')
+  changeStatus(@Param('id') id: string): Promise<boolean> {
+    return this.integrationsService.changeStatus(id);
   }
 
   @Delete(':id')

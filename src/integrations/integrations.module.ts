@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 
 import { StatusRepository } from '@common/repositories/status.repository';
 import { UserRepository } from '@common/repositories/user.repository';
@@ -16,6 +16,7 @@ import { IntegrationsRepository } from './repositories/integration.repository';
     IntegrationsRepository,
     UserRepository,
     ProviderRepository,
+    Logger,
   ],
 })
 export class IntegrationsModule {}

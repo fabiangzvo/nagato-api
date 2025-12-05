@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { FindOptionsWhere, Like, ObjectLiteral } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
@@ -21,6 +21,7 @@ export class IntegrationsService {
     private readonly integrationRepository: IntegrationsRepository,
     private readonly userRepository: UserRepository,
     private readonly providerRepository: ProviderRepository,
+    private readonly logger: Logger,
   ) {}
 
   async create(
@@ -98,5 +99,36 @@ export class IntegrationsService {
     const result = await this.integrationRepository.softRemove(id);
 
     if (!result) throw new NotFoundException(`Integration ${id} not found`);
+  }
+
+  async changeStatus(id: string): Promise<boolean> {
+    const integration = await this.integrationRepository.findOneById(id);
+
+    if (!integration)
+      throw new NotFoundException(`Integration ${id} not found`);
+
+    const statusName = integration.enabled ? 'disabled' : 'active';
+
+    const status = await this.statusRepository.filterOneStatus({
+      name: statusName,
+    });
+
+    if (!status)
+      throw new NotFoundException(`Status "${statusName}" not found`);
+
+    this.logger.log(
+      `IntegrationId ${id} with current status: ${integration.status.name}`,
+    );
+
+    const updatedIntegration = await this.integrationRepository.update(id, {
+      enabled: !integration.enabled,
+      status,
+    });
+
+    this.logger.log(
+      `IntegrationId ${id} with updated status: ${updatedIntegration?.status.name}`,
+    );
+
+    return !!updatedIntegration;
   }
 }
