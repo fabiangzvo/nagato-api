@@ -51,4 +51,10 @@ export class Integration {
 
   @Column({ name: 'updated_at' })
   updatedAt: Date;
+
+  @Column({ name: 'image' })
+  image: string;
+
+  @Column({ name: 'token' })
+  token: string;
 }

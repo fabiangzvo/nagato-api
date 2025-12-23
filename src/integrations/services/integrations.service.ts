@@ -63,6 +63,8 @@ export class IntegrationsService {
 
     const integration = await this.integrationRepository.create(record);
 
+    this.logger.log(`Integration: ${integration?.id} created successfully`);
+
     return integration;
   }
 

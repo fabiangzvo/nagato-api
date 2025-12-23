@@ -16,4 +16,12 @@ export class CreateIntegrationDto {
   @IsNotEmpty()
   @IsString()
   userId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  image: string;
+
+  @IsNotEmpty()
+  @IsString()
+  token: string;
 }
