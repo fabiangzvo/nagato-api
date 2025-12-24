@@ -1,6 +1,6 @@
 import { loadEnvFile } from 'process';
 
-loadEnvFile();
+if (process.env.NODE_ENV === 'development') loadEnvFile();
 
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
