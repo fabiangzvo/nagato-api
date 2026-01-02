@@ -46,8 +46,9 @@ export class IntegrationsRepository {
   }
 
   findOneById(id: string): Promise<Integration | null> {
-    return this.instance
-      .getRepository(Integration)
-      .findOne({ where: { id }, relations: { status: true, provider: true } });
+    return this.instance.getRepository(Integration).findOne({
+      where: { id },
+      relations: { status: true, provider: true, user: true },
+    });
   }
 }

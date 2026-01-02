@@ -133,4 +133,13 @@ export class IntegrationsService {
 
     return !!updatedIntegration;
   }
+
+  async findById(id: string): Promise<Integration> {
+    const integration = await this.integrationRepository.findOneById(id);
+
+    if (!integration)
+      throw new NotFoundException(`Integration ${id} not found`);
+
+    return integration;
+  }
 }

@@ -44,4 +44,9 @@ export class IntegrationsController {
   delete(@Param('id') id: string): Promise<void> {
     return this.integrationsService.softRemove(id);
   }
+
+  @Get(':id')
+  findById(@Param('id') id: string): Promise<Integration> {
+    return this.integrationsService.findById(id);
+  }
 }
