@@ -57,4 +57,7 @@ export class Integration {
 
   @Column({ name: 'token' })
   token: string;
+
+  @Column({ name: 'description' })
+  description: string;
 }
