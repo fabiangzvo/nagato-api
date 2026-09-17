@@ -56,7 +56,7 @@ export class PaginationQueryDto<T> {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  @Min(1)
+  @Min(-1)
   page: number = 1;
 
   @IsOptional()

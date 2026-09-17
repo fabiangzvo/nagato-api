@@ -71,9 +71,12 @@ export class IntegrationsService {
   async find(
     query: PaginationQueryDto<Integration>,
   ): Promise<PaginatedResponseDto<Integration>> {
+    const listAll = query.page === -1;
+
     const options: FindManyOptions<Integration> = {
-      take: query.limit,
-      skip: (query.page - 1) * query.limit,
+      ...(listAll
+        ? {}
+        : { take: query.limit, skip: (query.page - 1) * query.limit }),
       order: {
         createdAt: query.sort || 'desc',
       },
