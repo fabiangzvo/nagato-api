@@ -90,7 +90,19 @@ export class IntegrationsService {
 
     if (query.search) conditions.name = Like(`%${query.search}%`);
 
-    if (query?.filters) Object.assign(conditions, query.filters);
+    if (query?.filters) {
+      Object.assign(conditions, query.filters);
+
+      if (typeof conditions.user === 'string') {
+        conditions.user = { id: conditions.user };
+      }
+      if (typeof conditions.status === 'string') {
+        conditions.status = { id: conditions.status };
+      }
+      if (typeof conditions.provider === 'string') {
+        conditions.provider = { id: conditions.provider };
+      }
+    }
 
     if (Object.keys(conditions).length > 0) options.where = conditions;
 
